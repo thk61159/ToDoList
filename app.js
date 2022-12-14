@@ -2,8 +2,8 @@ const express = require('express')
 const app = express()
 const port = 3000
 const { engine } = require('express-handlebars')
-app.engine('handlebars', engine());
-app.set('view engine','handlebars' )
+app.engine('hbs', engine({ defaultLayout: 'main', extname: '.hbs'}));
+app.set('view engine','hbs' )
 app.set('views', './views')
 
 const mongoose = require('mongoose') // 載入 mongoose
@@ -27,7 +27,8 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 app.get('/', (req, res) => {
-  res.send('hi')
+  console.log(process.env.NODE_ENV);
+  res.render('index')
 })
 
 app.listen(3000, () => {

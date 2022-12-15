@@ -49,6 +49,14 @@ app.get('/todos/:id', (req, res) => {
     .then((todo) => res.render('detail', { todo }))
     .catch((error) => console.log(error));
 });
+app.get('/todos/:id/edit', (req, res) => {
+  const id = req.params.id;
+  return Todo.findById(id)
+    .lean()
+    .then((todo) => res.render('edit', { todo }))
+    .catch((error) => console.log(error));
+  
+})
 app.post('/todos', (req, res) => {
   const name = req.body.name;
   const todo = new Todo({ name });
@@ -62,6 +70,17 @@ app.post('/todos', (req, res) => {
   //   .then(() => res.redirect('/'))
   //   .catch((error) => console.error(error));
 });
+app.post('/todos/:id/edit', (req, res) => {
+  const id = req.params.id;
+  const name = req.body.name;
+  return Todo.findById(id)
+    .then((todo) => {
+      todo.name = name;
+      return todo.save();
+    })
+    .then(() => res.redirect(`/todos/${id}`))
+    .catch((error) => console.error(error));
+})
 app.listen(3000, () => {
   console.log(`app is http://localhost:${port}`);
 });

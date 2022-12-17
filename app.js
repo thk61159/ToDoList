@@ -30,11 +30,9 @@ db.once('open', () => {
 const Todo = require('./models/todo');
 
 app.get('/', (req, res) => {
-  console.log(Todo.find().lean());
   Todo.find()
     .lean()
     .then((todos) => {
-      // console.log(Todo.find())
       return res.render('index', { todos });
     })
     .catch((error) => console.error(error));
@@ -55,8 +53,7 @@ app.get('/todos/:id/edit', (req, res) => {
     .lean()
     .then((todo) => res.render('edit', { todo }))
     .catch((error) => console.log(error));
-  
-})
+});
 app.post('/todos', (req, res) => {
   const name = req.body.name;
   const todo = new Todo({ name });
@@ -80,7 +77,14 @@ app.post('/todos/:id/edit', (req, res) => {
     })
     .then(() => res.redirect(`/todos/${id}`))
     .catch((error) => console.error(error));
-})
+});
+app.post('/todos/:id/delete', (req, res) => {
+  const id = req.params.id;
+  return Todo.findById(id)
+    .then((todo) => todo.remove())
+    .then(() => res.redirect(`/`))
+    .catch((error) => console.error(error));
+});
 app.listen(3000, () => {
   console.log(`app is http://localhost:${port}`);
 });

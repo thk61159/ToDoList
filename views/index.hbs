@@ -1,8 +1,11 @@
-<a href="./todos/new">Create</a>
 <ul>
   {{#each todos}}
-  <li>{{this.name}}</li>
-  <a href="./todos/{{ this._id }}">detail</a>
-  <a href="./todos/{{ this._id }}/edit">edit</a>
+  <li style="display:flex; justify-content: space-evenly; align-item: center">
+  <div style="flex-basis: 20%">{{this.name}}</div> 
+  <a href="./todos/{{ this._id }}" style="display: block;flex-basis: 20%">detail</a>
+  <a href="./todos/{{ this._id }}/edit" style="display: block;flex-basis: 20%">edit</a>
+  <form action="./todos/{{ this._id }}/delete" method="POST"><button type="submit" style="flex-basis: 20%">delete</button></form>
+  </li>
   {{/each}}
 </ul>
+<button style="width: 30%; margin:0 35%;"><a href="./todos/new" style="display: block; width: 100%; text-decoration:none; margin:0;padding:0">Create</a></button>

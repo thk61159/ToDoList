@@ -1,3 +1,6 @@
-<p>{{ todo.name }}</p>
-<a href="./todos/{{ this._id }}/edit">edit</a>
-<a href="/">back</a>
+<div style="display:flex; justify-content: space-evenly; align-item: center">
+<p style="flex-basis: 20%; margin:0; padding:0">{{ todo.name }}</p>
+<a href="/todos/{{ todo._id }}/edit" style="display: block;flex-basis: 20%">edit</a>
+<a href="/" style="display: block;flex-basis: 20%">back</a>
+<form action="/todos/{{ todo._id }}/delete" method="POST"><button type="submit" style="flex-basis: 20%" >delete</button></form>
+</div>

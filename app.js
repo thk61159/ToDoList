@@ -32,6 +32,7 @@ const Todo = require('./models/todo');
 app.get('/', (req, res) => {
   Todo.find()
     .lean()
+    .sort({ _id: 'asc' })
     .then((todos) => {
       return res.render('index', { todos });
     })

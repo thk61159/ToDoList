@@ -69,10 +69,13 @@ app.post('/todos', (req, res) => {
 });
 app.post('/todos/:id/edit', (req, res) => {
   const id = req.params.id;
-  const name = req.body.name;
+  // const name = req.body.name;
+  //解構賦值
+  const { name, isDone } = req.body;
   return Todo.findById(id)
     .then((todo) => {
       todo.name = name;
+      todo.isDone = isDone ==='on'
       return todo.save();
     })
     .then(() => res.redirect(`/todos/${id}`))

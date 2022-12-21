@@ -1,9 +1,10 @@
 <ul>
   {{#each todos}}
   <li style="display:flex; justify-content: space-evenly; align-item: center">
+  <input type="checkbox" name="isDone" {{#if todo.isDone}}checked{{/if}} disabled>
   <div style="flex-basis: 20%">{{this.name}}</div> 
-  <a href="./todos/{{ this._id }}" style="display: block;flex-basis: 20%">detail</a>
-  <a href="./todos/{{ this._id }}/edit" style="display: block;flex-basis: 20%">edit</a>
+  <a href="./todos/{{ this._id }}" style="display: block;flex-basis: 20%; text-decoration:none">detail</a>
+  <a href="./todos/{{ this._id }}/edit" style="display: block;flex-basis: 20%; text-decoration:none">edit</a>
   <form action="./todos/{{ this._id }}/delete" method="POST"><button type="submit" style="flex-basis: 20%">delete</button></form>
   </li>
   {{/each}}

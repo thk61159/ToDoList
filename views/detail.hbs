@@ -1,6 +1,7 @@
 <div style="display:flex; justify-content: space-evenly; align-item: center">
 <p style="flex-basis: 20%; margin:0; padding:0">{{ todo.name }}</p>
-<a href="/todos/{{ todo._id }}/edit" style="display: block;flex-basis: 20%">edit</a>
-<a href="/" style="display: block;flex-basis: 20%">back</a>
+<input type="checkbox" name="isDone" {{#if todo.isDone}}checked{{/if}} disabled>
+<a href="/todos/{{ todo._id }}/edit" style="display: block;flex-basis: 20%;text-decoration:none">edit</a>
+<a href="/" style="display: block;flex-basis: 20%; text-decoration:none">back</a>
 <form action="/todos/{{ todo._id }}/delete" method="POST"><button type="submit" style="flex-basis: 20%" >delete</button></form>
 </div>

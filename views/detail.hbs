@@ -3,5 +3,5 @@
 <input type="checkbox" name="isDone" {{#if todo.isDone}}checked{{/if}} disabled>
 <a href="/todos/{{ todo._id }}/edit" style="display: block;flex-basis: 20%;text-decoration:none">edit</a>
 <a href="/" style="display: block;flex-basis: 20%; text-decoration:none">back</a>
-<form action="/todos/{{ todo._id }}/delete" method="POST"><button type="submit" style="flex-basis: 20%" >delete</button></form>
+<form action="/todos/{{ todo._id }}?_method=DELETE" method="POST"><button type="submit" style="flex-basis: 20%" >delete</button></form>
 </div>

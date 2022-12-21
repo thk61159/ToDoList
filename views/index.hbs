@@ -5,7 +5,7 @@
   <div style="flex-basis: 20%">{{this.name}}</div> 
   <a href="./todos/{{ this._id }}" style="display: block;flex-basis: 20%; text-decoration:none">detail</a>
   <a href="./todos/{{ this._id }}/edit" style="display: block;flex-basis: 20%; text-decoration:none">edit</a>
-  <form action="./todos/{{ this._id }}/delete" method="POST"><button type="submit" style="flex-basis: 20%">delete</button></form>
+  <form action="/todos/{{ this._id }}?_method=DELETE" method="POST"><button type="submit" style="flex-basis: 20%">delete</button></form>
   </li>
   {{/each}}
 </ul>

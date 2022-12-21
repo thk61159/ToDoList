@@ -1,6 +1,8 @@
 const express = require('express');
 const app = express();
 const port = 3000;
+const methodOverride = require('method-override');
+
 app.use(express.urlencoded({ extended: true }));
 //template engine
 const { engine } = require('express-handlebars');
@@ -27,8 +29,9 @@ db.on('error', () => {
 db.once('open', () => {
   console.log('mongodb connected!');
 });
+app.use(methodOverride('_method'));
 const Todo = require('./models/todo');
-
+///////////////////////////////////////
 app.get('/', (req, res) => {
   Todo.find()
     .lean()
@@ -68,7 +71,7 @@ app.post('/todos', (req, res) => {
   //   .then(() => res.redirect('/'))
   //   .catch((error) => console.error(error));
 });
-app.post('/todos/:id/edit', (req, res) => {
+app.put('/todos/:id', (req, res) => {
   const id = req.params.id;
   // const name = req.body.name;
   //解構賦值
@@ -82,7 +85,7 @@ app.post('/todos/:id/edit', (req, res) => {
     .then(() => res.redirect(`/todos/${id}`))
     .catch((error) => console.error(error));
 });
-app.post('/todos/:id/delete', (req, res) => {
+app.delete('/todos/:id', (req, res) => {
   const id = req.params.id;
   return Todo.findById(id)
     .then((todo) => todo.remove())

@@ -30,68 +30,12 @@ db.once('open', () => {
   console.log('mongodb connected!');
 });
 app.use(methodOverride('_method'));
-const Todo = require('./models/todo');
 ///////////////////////////////////////
-app.get('/', (req, res) => {
-  Todo.find()
-    .lean()
-    .sort({ _id: 'asc' })
-    .then((todos) => {
-      return res.render('index', { todos });
-    })
-    .catch((error) => console.error(error));
-});
-app.get('/todos/new', (req, res) => {
-  res.render('new');
-});
-app.get('/todos/:id', (req, res) => {
-  const id = req.params.id;
-  return Todo.findById(id)
-    .lean()
-    .then((todo) => res.render('detail', { todo }))
-    .catch((error) => console.log(error));
-});
-app.get('/todos/:id/edit', (req, res) => {
-  const id = req.params.id;
-  return Todo.findById(id)
-    .lean()
-    .then((todo) => res.render('edit', { todo }))
-    .catch((error) => console.log(error));
-});
-app.post('/todos', (req, res) => {
-  const name = req.body.name;
-  const todo = new Todo({ name });
-  console.log(req.body);
-  return todo
-    .save()
-    .then(() => res.redirect('/'))
-    .catch((error) => console.error(error));
-  //另一種寫法
-  // return Todo.creat({ name })
-  //   .then(() => res.redirect('/'))
-  //   .catch((error) => console.error(error));
-});
-app.put('/todos/:id', (req, res) => {
-  const id = req.params.id;
-  // const name = req.body.name;
-  //解構賦值
-  const { name, isDone } = req.body;
-  return Todo.findById(id)
-    .then((todo) => {
-      todo.name = name;
-      todo.isDone = isDone ==='on'
-      return todo.save();
-    })
-    .then(() => res.redirect(`/todos/${id}`))
-    .catch((error) => console.error(error));
-});
-app.delete('/todos/:id', (req, res) => {
-  const id = req.params.id;
-  return Todo.findById(id)
-    .then((todo) => todo.remove())
-    .then(() => res.redirect(`/`))
-    .catch((error) => console.error(error));
-});
+
+const routes = require('./routes')
+app.use(routes);
+
+
 app.listen(3000, () => {
   console.log(`app is http://localhost:${port}`);
 });

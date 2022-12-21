@@ -1,7 +1,10 @@
-<div style="display:flex; justify-content: space-evenly; align-item: center">
-<p style="flex-basis: 20%; margin:0; padding:0">{{ todo.name }}</p>
-<input type="checkbox" name="isDone" {{#if todo.isDone}}checked{{/if}} disabled>
-<a href="/todos/{{ todo._id }}/edit" style="display: block;flex-basis: 20%;text-decoration:none">edit</a>
-<a href="/" style="display: block;flex-basis: 20%; text-decoration:none">back</a>
-<form action="/todos/{{ todo._id }}?_method=DELETE" method="POST"><button type="submit" style="flex-basis: 20%" >delete</button></form>
-</div>
+<form action="/todos/{{ todo._id }}?_method=DELETE" method="POST">
+  <div class="input-group">
+    <div class="input-group-text">
+      <input type="checkbox" name="isDone" {{#if todo.isDone}}checked{{/if}} disabled>
+    </div>
+    <input class="form-control " type="text" name="name" placeholder="name" value="{{ todo.name }}" disabled>
+    <a class="btn btn-success " href="/todos/{{ todo._id }}/edit">edit</a>
+    <button class="btn btn-danger " type="submit">delete</button>
+  </div>
+</form>

@@ -10,7 +10,7 @@ require('./config/mongoose');
 
 ///////////////////////setting////////////////////////
 const app = express();
-const port = 3000;
+const PORT = process.env.PORT || 3000;
 app.engine('hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');
@@ -23,5 +23,5 @@ app.use(methodOverride('_method'));
 app.use(routes);
 
 app.listen(3000, () => {
-  console.log(`app is http://localhost:${port}`);
+  console.log(`app is http://localhost:${PORT}`);
 });

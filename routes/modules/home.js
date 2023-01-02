@@ -12,4 +12,7 @@ router.get('/', (req, res) => {
     .then((todos) => res.render('index', { todos }))
     .catch((error) => console.error(error));
 });
+router.get('/error', (req, res) => {
+  res.send('你答錯了')
+});
 module.exports = router;

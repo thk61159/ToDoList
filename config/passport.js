@@ -7,8 +7,7 @@ module.exports = (app) => {
   app.use(passport.initialize());
   app.use(passport.session());
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }),
-    (email, password, done) => {
+    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       User.findOne({ email })
         .then((user) => {
           if (!user) {
@@ -24,7 +23,7 @@ module.exports = (app) => {
           return done(null, user); //如果沒遇到錯誤則將user傳下去
         })
         .catch((err) => done(err, false));
-    }
+    })
   );
   passport.serializeUser((user, done) => {
     done(null, user.id);
@@ -36,4 +35,3 @@ module.exports = (app) => {
       .catch((err) => done(err, null));
   });
 };
-

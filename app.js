@@ -7,12 +7,13 @@ require('./config/mongoose');
 
 ///////////////////////setting////////////////////////
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 app.engine('hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');//使用時省略寫副檔名
 app.set('views', './views');
 app.use(methodOverride('_method'));
+app.use(express.static('public'));
 ///////////////////////controller////////////////////////
 
 app.use(routes);

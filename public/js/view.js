@@ -8,20 +8,19 @@ function impairedPassword(P1, P2) {
   }
   return false;
 }
+const note = document.querySelector('.note');
 const register = document.querySelector('.register');
 register.addEventListener('submit', function (event) {
   event.preventDefault();
   const confirmPassword = document.querySelector('#confirmPassword');
   const password = document.querySelector('#password');
-  const note = document.querySelector('.note');
+  
   if (!(password.value && confirmPassword.value)) {
     note.textContent = '請輸入密碼及確認密碼';
   } else if (impairedPassword(confirmPassword.value, password.value)) {
     note.textContent = '請確認兩次輸入密碼相同';
   } else {
     register.submit();
-    alert('註冊成功！')
   }
 });
-
 

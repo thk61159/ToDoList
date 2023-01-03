@@ -26,11 +26,13 @@ router.post('/register', (req, res) => {
         console.log('User already exists.');
         res.render('register', { name, email, password,comfirmPassword, note });
       } else {
+        // note = '註冊成功'
         return User.create({
           name,
           email,
           password,
         })
+          // .then(() => res.render('register',{note}))
           .then(() => res.redirect('/'))
           .catch((e) => console.log(e));
       }

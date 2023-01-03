@@ -1,19 +1,38 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../../models/user');
-router.use(express.static('public'));
+const session = require('express-session');
+router.use(
+  session({
+    secret: '這是在幫session簽名',
+    resave: false,
+    saveUninitialized: false,
+  })
+);
 
 router.get('/', (req, res) => {
-  res.render('login');
+  const { note } = req.query
+  const hiddenLogoutBtn = true;
+  res.render('login', { note, hiddenLogoutBtn });
 });
 router.post('/login', (req, res) => {
-  console.log(req.body);
-
-  res.send('寫入資料中');
+  const { email, password } = req.body;
+  User.findOne({ email, password })
+    .then((e) => {
+      if (e) {
+        req.session.isVerified = true;
+        res.redirect(`../`);
+      } else {
+        const note = 'wrong mail address or password!!';
+        res.redirect(`./?note=${note}`);
+      }
+    })
+    .catch((e) => console.log(e));
 });
 
 router.get('/register', (req, res) => {
-  res.render('register');
+  const hiddenLogoutBtn = true;
+  res.render('register', { hiddenLogoutBtn });
 });
 
 router.post('/register', (req, res) => {
@@ -41,4 +60,9 @@ router.post('/register', (req, res) => {
     .catch((e) => console.log(e));
 });
 
+router.get('/logout', (req, res) => {
+  const note = '已登出';
+  req.session.isVerified = false;
+  res.redirect(`./?note=${note}`);
+});
 module.exports = router;

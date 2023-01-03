@@ -8,7 +8,7 @@ const session = require('express-session');
 
 ///////////////////////setting////////////////////////
 const app = express();
-const PORT = process.env.PORT || 3001;
+const PORT = process.env.PORT || 3000;
 app.engine('hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');//使用時省略寫副檔名

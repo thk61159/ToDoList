@@ -10,16 +10,19 @@ const passport = require('passport');
 //     saveUninitialized: false,
 //   })
 // );
-let middelware = passport.authenticate('local', {
-    successRedirect: '/',
-    failureRedirect: '/users',
-  })
-router.get('/', (req, res) => {
-  const { note } = req.query
+
+router.get('/login', (req, res) => {
+  const { note } = req.query;
   const hiddenLogoutBtn = true;
   res.render('login', { note, hiddenLogoutBtn });
 });
-router.post('/login', middelware);
+router.post(
+  '/login',
+  passport.authenticate('local', {
+    successRedirect: '/',
+    failureRedirect: '/users/login',
+  })
+);
 
 router.get('/register', (req, res) => {
   const hiddenLogoutBtn = true;

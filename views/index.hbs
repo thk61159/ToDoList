@@ -9,8 +9,9 @@
         </h4>
       </div>
       <div class="col-auto">
-        <a class="btn btn-secondary align-middle" href="./todos/{{ this._id }}">detail</a>
-        <a class="btn btn-success align-middle" href="./todos/{{ this._id }}/edit">edit</a>
+        {{!-- <a class="btn btn-secondary align-middle" href="../../todos/{{ this._id }}">detail</a> --}}
+        <a class="btn btn-secondary align-middle" href="/todos/{{ this._id }}">detail</a>
+        <a class="btn btn-success align-middle" href="/todos/{{ this._id }}/edit">edit</a>
         <form  action="/todos/{{ this._id }}?_method=DELETE" method="POST" style="display: inline;"><button class="btn btn-danger align-middle"
             type="submit">delete</button></form>
       </div>

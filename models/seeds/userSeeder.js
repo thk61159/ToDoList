@@ -2,8 +2,8 @@ const User = require('../user');
 const users = [
   {
     firstName: 'Tony',
-    email: 'tony@stark.com',
-    password: 'iamironman',
+    email: 'tony@stark.com',iamironman
+    password: '',
   },
   {
     firstName: 'Steve',

@@ -13,8 +13,8 @@ const passport = require('passport');
 
 router.get('/login', (req, res) => {
   const { note } = req.query;
-  const hiddenLogoutBtn = true;
-  res.render('login', { note, hiddenLogoutBtn });
+  res.locals.hiddenLogoutBtn = true;
+  res.render('login', { note });
 });
 router.post(
   '/login',
@@ -25,8 +25,8 @@ router.post(
 );
 
 router.get('/register', (req, res) => {
-  const hiddenLogoutBtn = true;
-  res.render('register', { hiddenLogoutBtn });
+  res.locals.hiddenLogoutBtn = true
+  res.render('register');
 });
 
 router.post('/register', (req, res) => {

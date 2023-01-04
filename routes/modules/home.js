@@ -3,21 +3,12 @@ const router = express.Router();
 const Todo = require('../../models/todo');
 const passport = require('passport');
 
-// const checkedUser = (req, res, next) => {
-//   if (!req.session.isVerified) {
-//     const note = 'please login first';
-//     res.redirect(`http://localhost:3000/users`);
-//   } else {
-//     next();
-//   }
-// };
-let middelware = passport.authenticate('local', {
-  successRedirect: '/',
-  failureRedirect: '/users',
-});
 // 定義首頁路由
 router.get('/', (req, res) => {
-  Todo.find()
+  res.locals.controller = '/todos/new';
+  res.locals.sign = 'create';
+  const userId = req.user._id
+  Todo.find({ userId })
     .lean()
     .sort({ _id: 'asc' }) // desc
     .then((todos) => res.render('index', { todos }))

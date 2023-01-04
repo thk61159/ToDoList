@@ -5,6 +5,7 @@ if (process.env.NODE_ENV !== 'production') {
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 }); // 設定連線到 mongoDB connect to 環境變數
 // 取得資料庫連線狀態
 const db = mongoose.connection;

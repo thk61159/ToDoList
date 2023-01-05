@@ -25,39 +25,64 @@ router.post(
 );
 
 router.get('/register', (req, res) => {
-  res.locals.hiddenLogoutBtn = true
+  res.locals.hiddenLogoutBtn = true;
   res.render('register');
 });
 
 router.post('/register', (req, res) => {
-  const { name, email, password, comfirmPassword } = req.body;
+  const { name, email, password, confirmPassword } = req.body;
+  const errors = [];
+  if (!name || !email || !password || !confirmPassword) {
+    errors.push({ message: '所有欄位都是必填。' });
+  }
+  if (password !== confirmPassword) {
+    errors.push({ message: '密碼與確認密碼不相符！' });
+  }
+  if (errors.length) {
+    return res.render('register', {
+      errors,
+      name,
+      email,
+      password,
+      confirmPassword,
+    });
+  }
   User.findOne({ email })
     .then((user) => {
-      console.log(user)
+      console.log(user);
       if (user) {
+        errors.push({ message: '這個 Email 已經註冊過了。' });
         let note = '此email已經註冊過了！';
         console.log('User already exists.');
-        res.render('register', { name, email, password,comfirmPassword, note });
-      } else {
-        // note = '註冊成功'
-        return User.create({
+        return res.render('register', {
+          errors,
           name,
           email,
           password,
-        })
-          // .then(() => res.render('register',{note}))
-          .then(() => res.redirect('/'))
-          .catch((e) => console.log(e));
+          confirmPassword,
+          note,
+        });
+      } else {
+        return (
+          User.create({
+            name,
+            email,
+            password,
+          })
+            .then(() => res.redirect('/'))
+            .catch((e) => console.log(e))
+        );
       }
     })
-    
+
     .catch((e) => console.log(e));
 });
 
 router.get('/logout', (req, res) => {
   const note = '已登出';
+  req.flash('success_msg', '你已經成功登出。');
   req.logout();
   // req.session.isVerified = false;
-  res.redirect(`./?note=${note}`);
+  res.redirect(`/users/login?note=${note}`);
 });
 module.exports = router;

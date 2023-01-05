@@ -5,8 +5,8 @@ const { engine } = require('express-handlebars');
 const routes = require('./routes');
 require('./config/mongoose');
 const session = require('express-session');
-// 載入設定檔，要寫在 express-session 以後
-const usePassport = require('./config/passport')
+const usePassport = require('./config/passport')// 載入設定檔，要寫在 express-session 以後
+const flash = require('connect-flash');
 
 ///////////////////////setting////////////////////////
 const app = express();
@@ -27,10 +27,15 @@ app.use(
 // 呼叫 Passport 函式並傳入 app，這條要寫在路由之前
 usePassport(app)
 ///////////////////////controller////////////////////////
+app.use(flash());
 app.use((req, res, next) => {
-  res.locals.isAuthenticated = req.isAuthenticated
-  res.locals.user = req.user
-  next()
+  res.locals.isAuthenticated = req.isAuthenticated;
+  res.locals.user = req.user;
+  res.locals.success_msg = req.flash('success_msg'); // 設定 success_msg 訊息
+  console.log('success_msg'+res.locals.success_msg);
+  res.locals.warning_msg = req.flash('warning_msg'); // 設定 warning_msg 訊息
+  console.log('warn'+res.locals.warning_msg);
+  next();
 })
 app.use(routes);
 

@@ -8,6 +8,9 @@ function impairedPassword(P1, P2) {
   }
   return false;
 }
+
+
+
 const note = document.querySelector('.note');
 const register = document.querySelector('.register');
 register.addEventListener('submit', function (event) {
@@ -24,3 +27,5 @@ register.addEventListener('submit', function (event) {
   }
 });
 
+
+;

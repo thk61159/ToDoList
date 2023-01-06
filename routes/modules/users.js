@@ -3,6 +3,7 @@ const router = express.Router();
 const User = require('../../models/user');
 // const session = require('express-session');
 const passport = require('passport');
+const bcrypt = require('bcryptjs');
 // router.use(
 //   session({
 //     secret: '這是在幫session簽名',
@@ -53,7 +54,6 @@ router.post('/register', (req, res) => {
       if (user) {
         errors.push({ message: '這個 Email 已經註冊過了。' });
         let note = '此email已經註冊過了！';
-        console.log('User already exists.');
         return res.render('register', {
           errors,
           name,
@@ -63,15 +63,18 @@ router.post('/register', (req, res) => {
           note,
         });
       } else {
-        return (
-          User.create({
-            name,
-            email,
-            password,
-          })
-            .then(() => res.redirect('/'))
-            .catch((e) => console.log(e))
-        );
+        return bcrypt
+          .genSalt(10)
+          .then((salt) => bcrypt.hash(password, salt))
+          .then((hash) =>
+            User.create({
+              name,
+              email,
+              password: hash,
+            })
+          )
+          .then(() => res.redirect('/'))
+          .catch((e) => console.log(e));
       }
     })
 

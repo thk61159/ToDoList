@@ -1,5 +1,6 @@
 ///////////////////////impot////////////////////////
-const express = require('express');
+
+const express = require('express')
 const methodOverride = require('method-override');
 const { engine } = require('express-handlebars');
 const routes = require('./routes');
@@ -8,10 +9,11 @@ const session = require('express-session');
 const usePassport = require('./config/passport')// 載入設定檔，要寫在 express-session 以後
 const flash = require('connect-flash');
 
+
 ///////////////////////setting////////////////////////
 const app = express();
 const PORT = process.env.PORT || 3000;
-app.engine('hbs', engine({ defaultLayout: 'main', extname: '.hbs' }));
+app.engine('hbs', engine({ defaultLayout: 'main', extname: 'hbs'}));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');//使用時省略寫副檔名
 app.set('views', './views');
@@ -42,3 +44,5 @@ app.use(routes);
 app.listen(PORT, () => {
   console.log(`app is listening on http://localhost:${PORT}`);
 });
+
+

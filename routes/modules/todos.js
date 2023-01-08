@@ -1,11 +1,9 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const Todo = require('../../models/todo');
 
-
 router.get('/new', (req, res) => {
-  res.locals.controller = '/'
-  res.locals.sign = 'back'
+  res.locals.controller = '/';
+  res.locals.sign = 'back';
   res.render('new');
 });
 router.get('/:id', (req, res) => {
@@ -23,7 +21,7 @@ router.get('/:id/edit', (req, res) => {
   res.locals.sign = 'back';
   const userId = req.user._id;
   const id = req.params.id;
-  return Todo.findOne({ _id:id, userId })
+  return Todo.findOne({ _id: id, userId })
     .lean()
     .then((todo) => res.render('edit', { todo }))
     .catch((error) => console.log(error));
@@ -54,7 +52,7 @@ router.put('/:id', (req, res) => {
       todo.isDone = isDone === 'on';
       return todo.save();
     })
-    .then(() => res.redirect(`/todos/${id}`))
+    .then(() => res.redirect(`/`))
     .catch((error) => console.error(error));
 });
 router.delete('/:id', (req, res) => {

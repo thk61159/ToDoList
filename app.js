@@ -7,8 +7,10 @@ const routes = require('./routes');
 require('./config/mongoose');
 const session = require('express-session');
 const usePassport = require('./config/passport')// 載入設定檔，要寫在 express-session 以後
-const flash = require('connect-flash');
-
+const flash = require('connect-flash');//提示module
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config();
+}
 
 ///////////////////////setting////////////////////////
 const app = express();
@@ -17,28 +19,27 @@ app.engine('hbs', engine({ defaultLayout: 'main', extname: 'hbs'}));
 app.use(express.urlencoded({ extended: true }));
 app.set('view engine', 'hbs');//使用時省略寫副檔名
 app.set('views', './views');
-app.use(methodOverride('_method'));
+app.use(methodOverride('_method'));//RESTful API for PUT and DELET
 app.use(express.static('public'));
 app.use(
   session({
-    secret: '簽名用的字串',
+    secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
   })
 );
-// 呼叫 Passport 函式並傳入 app，這條要寫在路由之前
+//  Passport 負責athenticate擺在routes之前
 usePassport(app)
-///////////////////////controller////////////////////////
+///////////////////////middleware////////////////////////
 app.use(flash());
 app.use((req, res, next) => {
   res.locals.isAuthenticated = req.isAuthenticated;
   res.locals.user = req.user;
   res.locals.success_msg = req.flash('success_msg'); // 設定 success_msg 訊息
-  console.log('success_msg'+res.locals.success_msg);
   res.locals.warning_msg = req.flash('warning_msg'); // 設定 warning_msg 訊息
-  console.log('warn'+res.locals.warning_msg);
   next();
 })
+///////////////////////routes////////////////////////
 app.use(routes);
 
 app.listen(PORT, () => {

@@ -1,16 +1,7 @@
-const express = require('express');
-const router = express.Router();
+const router = require('express').Router();
 const User = require('../../models/user');
-// const session = require('express-session');
-const passport = require('passport');
-const bcrypt = require('bcryptjs');
-// router.use(
-//   session({
-//     secret: '這是在幫session簽名',
-//     resave: false,
-//     saveUninitialized: false,
-//   })
-// );
+const passport = require('passport');//POST login authenticator
+const bcrypt = require('bcryptjs'); //POST register hash password
 
 router.get('/login', (req, res) => {
   const { note } = req.query;
